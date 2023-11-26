@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  nest-app:
+    build:
+      context: .
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: "postgres:latest"
+    container_name: "nest-postgres"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "mksCinema"
+      POSTGRES_USER: "mksUser"
+      POSTGRES_PASSWORD: "mksPassword"
+
+  redis:
+    image: "redis:latest"
+    container_name: "nest-redis"
+    ports:
+      - "6379:6379"
