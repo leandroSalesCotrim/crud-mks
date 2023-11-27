@@ -3,7 +3,9 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FilmeModel } from "../models/filme.model";
 import { FilmeSchema } from "src/Schemas/filme.schema";
+import { ApiTags } from "@nestjs/swagger";
 
+@ApiTags('Filmes')
 @Controller('/filme')
 export class FilmeController {
     constructor(@InjectRepository(FilmeModel) private model: Repository<FilmeModel>) { }
