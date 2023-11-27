@@ -1,10 +1,15 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { FilmeModule } from './modules/filme.module';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [FilmeModule, TypeOrmModule.forRoot({
+    "database": "mksCinema",
+    "type": "postgres",
+    "username": "mksUser",
+    "password": "mksPassword",
+    "synchronize": true,
+    "entities" : ["dist/**/*.model.js"]
+  })],
 })
 export class AppModule {}
