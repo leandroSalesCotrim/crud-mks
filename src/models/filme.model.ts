@@ -6,14 +6,14 @@ export class FilmeModel{
     id:number;
 
     @Column({ length: 60})
-    nome: String;
+    nome: string;
 
     @Column({ length: 60})
-    genero: String;
+    genero: string;
     
     @Column('int')
-    lancamento: Number;
+    lancamento: number;
     
     @Column({ length: 5 })
-    duracao: String;
+    duracao: string;
 }

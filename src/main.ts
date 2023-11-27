@@ -18,6 +18,7 @@ async function bootstrap() {
   )
   .setVersion('1.0')
   .addTag('Filmes')
+  .addTag('Usuarios')
   .build();
 
   const document = SwaggerModule.createDocument(app, config);

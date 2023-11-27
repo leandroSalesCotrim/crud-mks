@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Put, Delete, Inject, Body, ValidationPipe, ParseIntPipe, Param, NotFoundException } from "@nestjs/common";
+import { Controller, Post, Get, Put, Delete, Body, ParseIntPipe, Param, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { FilmeModel } from "../models/filme.model";

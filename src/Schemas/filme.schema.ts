@@ -8,7 +8,7 @@ export class FilmeSchema{
         description: 'Titulo do filme',
         example: 'Homem-Aranha 3'
     })
-    nome: String;
+    nome: string;
     
     @IsString()
     @MaxLength(60)
@@ -16,7 +16,7 @@ export class FilmeSchema{
         description: 'Categoria/genero do filme',
         example: 'Super-heroi'
     })
-    genero: String;
+    genero: string;
     
     @IsInt()
     @Min(1970)
@@ -25,7 +25,7 @@ export class FilmeSchema{
         description: 'Ano de lançamento do filme',
         example: '2007'
     })
-    lancamento: Number;
+    lancamento: number;
     
     @IsString()
     @MaxLength(5)
@@ -33,5 +33,5 @@ export class FilmeSchema{
         description: 'Tempo de duração do filme',
         example: '02:19'
     })
-    duracao: String;
+    duracao: string;
 }
