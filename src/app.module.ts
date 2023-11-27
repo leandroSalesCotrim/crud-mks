@@ -4,8 +4,9 @@ import { FilmeModule } from './modules/filme.module';
 
 @Module({
   imports: [FilmeModule, TypeOrmModule.forRoot({
-    "database": "mksCinema",
+    "host": "nest-postgres",
     "type": "postgres",
+    "database": "mksCinema",
     "username": "mksUser",
     "password": "mksPassword",
     "synchronize": true,

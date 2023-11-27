@@ -1,8 +1,0 @@
-{
-    "database": "mksCinema",
-    "type": "postgres",
-    "username": "mksUser",
-    "password": "mksPassword",
-    "synchronize": true,
-    "entities" : ["dist/**/*.model.js"]
-}
