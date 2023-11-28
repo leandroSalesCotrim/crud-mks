@@ -6,8 +6,7 @@ ConfigModule.forRoot();
 @Module({
   imports: [
     RedisModule.register({
-      host: process.env.REDIS_HOST, 
-      port: 6379, 
+      url: process.env.REDIS_URL, 
     }),
   ],
   exports: [RedisModule],
