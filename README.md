@@ -21,6 +21,7 @@ Um sistema de catalogo de filmes onde a API deve: Retornar todos os filmes dispo
           <li>Docker - experiência profissional e acadêmica de 1 ano</li>
           <li>Redis - 0 de experiência anterior.</li>
           <li>PostgresSQL - 6 meses de experiência acadêmica.</li>
+          <li>Render (Deploy) - 0 de experiência anterior.</li>
         </ul>
       </td>
     </tr>
@@ -212,6 +213,9 @@ Um sistema de catalogo de filmes onde a API deve: Retornar todos os filmes dispo
 
   
   
+  <summary><h3>☁ Deploy ☁</h3></summary></br>
+Atualmente estou utilizando a plataforma Render para realizar o deploy da aplicação e os bancos, é possível acessar o deploy realizado neste link: https://cinme-mks.onrender.com/api/v1/swagger
+
   <summary><h3>Como rodar localmente 👨‍💻</h3></summary></br>
   
   ⚠️ Necessário Docker e Docker-Compose ⚠️
