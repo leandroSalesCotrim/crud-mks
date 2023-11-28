@@ -21,11 +21,9 @@ export class AuthService {
     async verificarJWT(id, auth_token: string): Promise<boolean> {
         try {
             const decoded = await this.jwtService.verifyAsync(auth_token);
-            console.log(decoded);
             if (!decoded) {
                 throw new UnauthorizedException('Token não autorizado para requisição');
             }
-            console.log(await this.RedisGetKey(id) != auth_token);
             if (await this.RedisGetKey(id) != auth_token) {
                 throw new UnauthorizedException('Token não autorizado para requisição');
             }
@@ -52,8 +50,8 @@ export class AuthService {
     //---------------funcoes de auth do user---------------
     public async login(usuario: UsuarioModel): Promise<any> {
 
-        if (usuario.online) {
-            throw new UnauthorizedException('Não foi possivel realizar o login, usuário já autenticado');
+         if (usuario.online) {
+             throw new UnauthorizedException('Não foi possivel realizar o login, usuário já autenticado');
         }
 
         usuario.online = true;

@@ -5,7 +5,6 @@ import { UsuarioModel } from "../models/usuario.model";
 import { UsuarioSchema } from "src/Schemas/usuario.schema";
 import { ApiHeader, ApiParam, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "src/services/auth.service";
-import { UsuarioLogoutSchema } from "src/Schemas/usuario.logout.schema";
 
 
 
@@ -25,8 +24,8 @@ export class UsuarioController {
         @Body() body: UsuarioSchema,
     ): Promise<UsuarioModel> {
 
-            const usuarioCriado = await this.model.save(body);
-            return usuarioCriado;
+        const usuarioCriado = await this.model.save(body);
+        return usuarioCriado;
     }
 
     @Get(':id')
@@ -118,7 +117,7 @@ export class UsuarioController {
     public async Logout(
         @Headers('user_id') user_id: number,
         @Headers('x-acess-token') auth_token: string): Promise<String> {
-        const usuario = await this.model.findOne({ where: { id:user_id } });
+        const usuario = await this.model.findOne({ where: { id: user_id } });
 
         if (!usuario) {
             throw new NotFoundException(

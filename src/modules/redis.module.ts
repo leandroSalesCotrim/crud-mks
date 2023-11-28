@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
 import { RedisModule } from 'nestjs-redis';
+import { ConfigModule } from '@nestjs/config';
+ConfigModule.forRoot();
 
 @Module({
   imports: [
     RedisModule.register({
-      host: 'localhost', // coloque o host do seu servidor Redis
-      port: 6379, // porta padrão do Redis
+      host: process.env.REDIS_HOST, 
+      port: 6379, 
     }),
   ],
   exports: [RedisModule],

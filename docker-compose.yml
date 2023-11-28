@@ -9,6 +9,8 @@ services:
     depends_on:
       - postgres
       - redis
+    env_file:
+      - .env
 
   postgres:
     image: "postgres:latest"
@@ -16,9 +18,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: "mksCinema"
-      POSTGRES_USER: "mksUser"
-      POSTGRES_PASSWORD: "mksPassword"
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
   redis:
     image: "redis:latest"

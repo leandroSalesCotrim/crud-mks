@@ -10,12 +10,12 @@ import { RedisCacheModule } from './modules/redis.module';
     UsuarioModule, 
     RedisCacheModule, 
     TypeOrmModule.forRoot({
-    "host": "localhost",
-    // "host": "nest-postgres",
+    //"host": "localhost",
+    "host": process.env.POSTGRES_HOST,
     "type": "postgres",
-    "database": "mksCinema",
-    "username": "mksUser",
-    "password": "mksPassword",
+    "database": process.env.POSTGRES_DB,
+    "username": process.env.POSTGRES_USER,
+    "password": process.env.POSTGRES_PASSWORD,
     "synchronize": true,
     "entities" : ["dist/**/*.model.js"]
   })
