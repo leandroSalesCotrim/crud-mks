@@ -19,7 +19,10 @@ import { RedisCacheModule } from './modules/redis.module';
     "username": process.env.POSTGRES_USER,
     "password": process.env.POSTGRES_PASSWORD,
     "synchronize": true,
-    "entities" : ["dist/**/*.model.js"]
+    "entities" : ["dist/**/*.model.js"],
+    "ssl": {
+      rejectUnauthorized: false, // Use esta opção apenas para desenvolvimento; não é recomendado em produção.
+    },
   })
   ],
 })
