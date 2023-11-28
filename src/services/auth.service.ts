@@ -4,13 +4,13 @@ import { UsuarioModel } from '../models/usuario.model';
 import { Repository } from 'typeorm';
 import { InjectRepository } from "@nestjs/typeorm";
 import { RedisService } from "nestjs-redis";
+import { FilmeModel } from "src/models/filme.model";
 
 @Injectable()
 export class AuthService {
     private redisClient;
 
     constructor(
-        @InjectRepository(UsuarioModel) private model: Repository<UsuarioModel>,
         private jwtService: JwtService,
         private redisService: RedisService
     ) {
@@ -38,6 +38,25 @@ export class AuthService {
     async RedisSetKey(key: string, value: string): Promise<void> {
         await this.redisClient.set(key, value);
     }
+    
+    
+    async RedisSetCacheFilmes(key: string, value: FilmeModel[]): Promise<void> {
+        await this.redisService.getClient().setex(
+            key,
+            30, // segundos
+            JSON.stringify(value),
+          );
+    }
+    
+
+    async RedisSetCacheUsuarios(key: string, value: UsuarioModel[]): Promise<void> {
+        await this.redisService.getClient().setex(
+            key,
+            30, // segundos
+            JSON.stringify(value),
+          );
+    }
+
     async RedisGetKey(key: string): Promise<string | null> {
         return await this.redisClient.get(key);
     }
@@ -47,41 +66,4 @@ export class AuthService {
         return res;
     }
 
-    //---------------funcoes de auth do user---------------
-    public async login(usuario: UsuarioModel): Promise<any> {
-
-         if (usuario.online) {
-             throw new UnauthorizedException('Não foi possivel realizar o login, usuário já autenticado');
-        }
-
-        usuario.online = true;
-        await this.model.update({ id: usuario.id }, usuario);
-
-        const token = await this.jwtService.sign({ userId: usuario.id })
-        await this.RedisSetKey(`${usuario.id}`, token);
-
-        const res = { online: true, auth_token: token };
-        return res;
-    }
-
-    public async logout(usuario: UsuarioModel, auth_token: string): Promise<string> {
-        try {
-            if (!usuario.online) {
-                throw new UnauthorizedException('Não foi possível realizar o logout, usuário já se encontra offline');
-            }
-
-            if (await this.verificarJWT(usuario.id, auth_token)) {
-                usuario.online = false;
-                await this.model.update({ id: usuario.id }, usuario);
-                await this.RedisSetKey(`${usuario.id}`, "");
-
-
-                return "Logout realizado com sucesso!";
-
-            }
-        } catch (e) {
-            throw new UnauthorizedException('Token JWT inválido');
-        }
-
-    }
 }

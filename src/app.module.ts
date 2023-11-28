@@ -3,11 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FilmeModule } from './modules/filme.module';
 import { UsuarioModule } from './modules/usuario.module';
 import { RedisCacheModule } from './modules/redis.module';
+// import { AuthModule } from './modules/auth.module';
 
 @Module({
   imports: [
     FilmeModule, 
     UsuarioModule, 
+    // AuthModule, 
     RedisCacheModule, 
     TypeOrmModule.forRoot({
     //"host": "localhost",

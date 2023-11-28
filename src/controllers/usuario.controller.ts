@@ -5,8 +5,7 @@ import { UsuarioModel } from "../models/usuario.model";
 import { UsuarioSchema } from "src/Schemas/usuario.schema";
 import { ApiHeader, ApiParam, ApiTags } from "@nestjs/swagger";
 import { AuthService } from "src/services/auth.service";
-
-
+import { UsuarioService } from "src/services/usuario.service";
 
 @ApiTags('Usuarios')
 @Controller('/usuario')
@@ -14,7 +13,8 @@ export class UsuarioController {
 
     constructor(
         @InjectRepository(UsuarioModel) private model: Repository<UsuarioModel>,
-        private authService: AuthService
+        private authService: AuthService,
+        private usuarioService: UsuarioService
     ) { }
 
     //OBS: não deixei como padrão a verificação de login no post para que seja possivel 
@@ -23,6 +23,10 @@ export class UsuarioController {
     public async Create(
         @Body() body: UsuarioSchema,
     ): Promise<UsuarioModel> {
+        const usuario = await this.model.findOne({ where: { userName: body.userName} });
+        if (usuario) {
+            throw new NotFoundException(`Não foi possivel registrar o usuário informado, pois o mesmo ja existe.`);
+        }
 
         const usuarioCriado = await this.model.save(body);
         return usuarioCriado;
@@ -35,7 +39,7 @@ export class UsuarioController {
         @Param('id', ParseIntPipe) id: number,
         @Headers('user_id') user_id: number,
         @Headers('x-acess-token') auth_token: string
-    ): Promise<UsuarioModel> {
+    ): Promise<{ data: UsuarioModel }> {
         if (await this.authService.verificarJWT(user_id, auth_token)) {
             const usuario = await this.model.findOne({ where: { id } });
 
@@ -43,7 +47,7 @@ export class UsuarioController {
                 throw new NotFoundException(`Não foi possível encontrar um usuario com o id ${id}`);
             }
 
-            return usuario;
+            return { data: usuario };
         }
     }
 
@@ -54,7 +58,18 @@ export class UsuarioController {
         @Headers('x-acess-token') auth_token: string,
     ): Promise<{ data: UsuarioModel[] }> {
         if (await this.authService.verificarJWT(user_id, auth_token)) {
+            const cacheKey = `usuarios:${user_id}`;
+
+            const cachedData = await this.authService.RedisGetKey(cacheKey);
+
+            if (cachedData) {
+                return { data: JSON.parse(cachedData) };
+            }
+
             const list = await this.model.find();
+
+            await this.authService.RedisSetCacheUsuarios(cacheKey, list);
+
             return { data: list };
         }
     }
@@ -96,7 +111,7 @@ export class UsuarioController {
 
             await this.model.delete(id);
             await this.authService.deletarChaveRedis(`${id}`);
-            return `O usuario com o id ${id} foi deletada com sucesso!`;
+            return `O usuario com o id ${id} foi deletado com sucesso!`;
         }
     }
 
@@ -110,7 +125,7 @@ export class UsuarioController {
                 'Não foi possível realizar o login com o usuário fornecido, usuário não encontrado',
             );
         }
-        return this.authService.login(usuario);
+        return this.usuarioService.login(usuario);
     }
 
     @Post('/logout')
@@ -124,6 +139,6 @@ export class UsuarioController {
                 'Não foi possível realizar o logout com o usuário fornecido, usuário não encontrado',
             );
         }
-        return await this.authService.logout(usuario, auth_token);
+        return await this.usuarioService.logout(usuario, auth_token);
     }
 }
