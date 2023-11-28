@@ -44,7 +44,7 @@ Um sistema de catalogo de filmes onde a API deve: Retornar todos os filmes dispo
   ```
   </details>
   
-  #### `POST /api/v1/usario/login` (Realiza o login do usuário):
+  #### `POST /api/v1/usuario/login` (Realiza o login do usuário):
   Espera que no body da requisição venha os dados do usuário, verifica se condizem com um usuário do banco e retorna um `token JWT` de acesso, que também é armazenado no redis.</br>
   
   <details>
@@ -58,7 +58,7 @@ Um sistema de catalogo de filmes onde a API deve: Retornar todos os filmes dispo
   ```
   </details>
 
-  #### `POST /api/v1/usario/logout` (Realiza o logout do usuário):
+  #### `POST /api/v1/usuario/logout` (Realiza o logout do usuário):
   Espera que no header da requisição venha user_id e x-acess-token , verifica se condizem com um usuário do banco e realiza o logout definindo o status online para false e o valor armazenado no redis em branco.</br>
   
   <details>
@@ -253,7 +253,8 @@ JWT_SECRET=segredoSecreto
 $ docker-compose up
 ```
 
-  ⚠️ EXTRA ⚠️
+  ⚠️ Extra ⚠️
+
 Caso queira modificar a aplicação e ir realizando testes você pode executar apenas os comandos abaixo
 
 1) Liste os container para visualizar o id dos container dos bancos redis e postgres
