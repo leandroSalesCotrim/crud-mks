@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsJWT, IsString, MaxLength, MinLength } from "class-validator";
 
-export class UsuarioSchema{
+export class UsuarioLogoutSchema{
     @IsString()
     @MaxLength(25)
     @ApiProperty({
@@ -19,4 +19,12 @@ export class UsuarioSchema{
     })
     password: string;
 
+    @IsString()
+    @IsJWT()
+    @ApiProperty({
+        description: 'Token de autenticação do usuario',
+        example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjIsImlhdCI6MTcwMTA5OTU4N30.W9rYZq2lgBU-lpeXS5KKRKb8cZXKbFfx4khrgSJZKnQ'
+    })
+    auth_token: string;
+    
 }
